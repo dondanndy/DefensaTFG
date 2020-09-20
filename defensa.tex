@@ -1,0 +1,683 @@
+\documentclass{beamer}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\DeclareUnicodeCharacter{2212}{-}
+\usepackage[spanish, es-tabla]{babel}
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{makeidx}
+\usepackage{graphicx}
+% \usepackage[table,xcdraw]{xcolor}
+\usepackage{lmodern}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+\usepackage[font=small,justification=centering]{caption}
+\usepackage{subcaption}
+\usetikzlibrary{arrows,shapes,positioning,calc,babel,pgfplots.groupplots, pgfplots.statistics}
+\usepackage{pgfkeys} % LATEX
+\usepackage{pgffor}
+\usepackage{adjustbox}
+\usepackage{bm}
+\usepackage{siunitx}
+\usepackage{multirow}
+% \usepackage{multicol}
+% \usepackage{afterpage}
+\usepackage{xcolor}
+\usepackage{soul}
+\usepackage{float}
+\usepackage[italicdiff]{physics}
+
+
+\usetheme{metropolis}           % Use metropolis theme
+\title{Estudio del posicionamiento de un robot móvil mediante sensores "Ultra-wide Band"}
+\date{\today}
+\author{Daniel A. Durán García}
+% \institute{Centre for Modern Beamer Themes}
+
+
+\begin{document}
+  \maketitle
+
+  \section{Posicionamiento local}
+    \begin{frame}{Posicionamiento local}
+      En interiores es imposible utilizar tecnologías de posicionamiento global basadas en señal de satélites.
+
+      Existen tecnologías alternativas con mayor precisión destinadas a su uso en estos entornos interiores.
+    \end{frame}
+
+  \section{Técnicas de posicionamiento}
+
+    \begin{frame}{Técnicas de posicionamiento}
+    \begin{itemize}
+      \item \textit{Fingerprinting}
+      \item Algoritmos geométricos
+      \begin{itemize}
+        \item Tiempo de vuelo (TOA)
+        \item Diferencia de tiempo de vuelo (TDOA)
+        \item Potencia percibida (RSSI)
+        \item Ángulo de llegada (AOA)
+      \end{itemize}
+    \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Técnicas geométricas}
+    De forma general
+      \begin{equation*}\label{eq:geom}
+        \vb{r} = \vb{f}(x_1, x_2, \ldots, x_n) + \vb{n}
+      \end{equation*}
+
+      Límite teórico (Cota inferior de Cramer Rao):
+      \begin{equation*}
+        \sigma^2(\theta_i) \geq [\mathcal{I}(\bm{\theta})^{-1}]_{ii}
+      \end{equation*}
+      donde
+      \begin{equation*}
+        [\mathcal{I}(\bm{\theta})]_{ij} = \frac{1}{\sigma^2} \sum_{n=0}^{N=1} \pdv{s[n,\bm{\theta}]}{\theta_i}\pdv{s[n,\bm{\theta}]}{\theta_j}
+      \end{equation*}
+    \end{frame}
+
+    \begin{frame}{Tiempo de vuelo (TOA)}
+      \begin{columns}
+        \begin{column}{0.5\textwidth}
+          Conociendo la velocidad de propagación, es posible determinar la distancia entre baliza y objetivo midiendo el tiempo de vuelo de la señal.
+
+          \vspace{.5cm}
+          Requiere la sincronización de relojes de balizas y objetivo.
+        \end{column}
+        \begin{column}{0.5\textwidth}  
+          \begin{figure}[H]
+            \centering
+            \def\svgwidth{\linewidth}
+            \input{./fig/TOA.pdf_tex}
+          % \caption{Posicionamiento por tiempo de vuelo (TOA).}
+            \label{fig:TOA}
+        \end{figure}
+        \end{column}
+      \end{columns}
+    \end{frame}
+
+    \begin{frame}{Tiempo de vuelo (TOA)}
+      \begin{columns}
+        \begin{column}{0.5\textwidth}
+          Cota inferior:
+          \begin{equation*}\label{eq:CRLB_TOA}
+            \text{CRLB} = \sigma^2(\tau) \geq \frac{1}{8\pi^2\text{SNR}\beta^2}
+        \end{equation*}
+        donde
+        \begin{equation*}
+          \beta^2 = \frac{\int_{-\infty}^{\infty} \omega^2 \abs{S(\omega)}^2\dd{\omega}}{\int_{-\infty}^{\infty} \abs{S(\omega)}^2\dd{\omega}}
+      \end{equation*}
+        \end{column}
+        \begin{column}{0.5\textwidth}  
+          \begin{figure}[H]
+            \centering
+            \def\svgwidth{\linewidth}
+            \input{./fig/TOA.pdf_tex}
+          % \caption{Posicionamiento por tiempo de vuelo (TOA).}
+            \label{fig:TOA}
+        \end{figure}
+        \end{column}
+      \end{columns}
+    \end{frame}
+
+    \begin{frame}{Diferencia de tiempo de vuelo (TDOA)}
+      \begin{columns}
+        \begin{column}{0.5\textwidth}
+          Para evitar la sincronización de relojes con el objetivo, se toma una baliza como referencia y se mide la diferencia de tiempo entre la emisión de pulsos respecto las demás.
+
+          \vspace{0.5cm}
+          Misma cota inferior que en el tiempo de vuelo.
+        \end{column}
+        \begin{column}{0.5\textwidth}  
+          \begin{figure}[H]
+            \centering
+            \def\svgwidth{\linewidth}
+            \input{./fig/TDOA.pdf_tex}
+            \label{fig:TDOA}
+        \end{figure}
+        \end{column}
+        \end{columns}
+    \end{frame}
+
+    \begin{frame}{Potencia percibida (RSSI)}
+      \begin{columns}
+        \begin{column}{0.5\textwidth}
+          Aprovechando el decaimiento de la señal, es posible determinar la distancia entre la baliza y el objetivo.
+
+          \vspace{0.5cm}
+          Muy susceptible a interferencias.
+        \end{column}
+        \begin{column}{0.5\textwidth}  
+          \begin{figure}[H]
+            \centering
+            \def\svgwidth{\linewidth}
+            \input{./fig/TOA.pdf_tex}
+          % \caption{Posicionamiento por tiempo de vuelo (TOA).}
+            \label{fig:TOA}
+        \end{figure}
+        \end{column}
+        \end{columns}
+    \end{frame}
+
+    \begin{frame}{Potencia percibida (RSSI)}
+      \begin{columns}
+        \begin{column}{0.5\textwidth}
+          Ecuación general del decaimiento de la potencia de la señal:
+          \begin{equation*}\label{eq:RSSI}
+            p(r) = p(r_0) - 10n\log(\frac{r}{r_0})
+          \end{equation*}
+
+          Cota inferior:
+          \begin{equation*}\label{eq:CRLB_RSSI}
+            \sigma^2(d_i) = \frac{\ln(10)\sigma_{sh}d}{10n}
+        \end{equation*}
+        \end{column}
+        \begin{column}{0.5\textwidth}  
+          \begin{figure}[H]
+            \centering
+            \def\svgwidth{\linewidth}
+            \input{./fig/TOA.pdf_tex}
+          % \caption{Posicionamiento por tiempo de vuelo (TOA).}
+            \label{fig:TOA}
+        \end{figure}
+        \end{column}
+        \end{columns}
+    \end{frame}
+
+    \begin{frame}{Ángulo de llegada (AOA)}
+      \begin{columns}
+        \begin{column}{0.5\textwidth}
+          Para evitar cualquier tipo de sincronización de relojes es posible usar el ángulo de llegada de la señal al objetivo.
+
+          \vspace{0.5cm}
+          Requiere el uso de antenas direccionales.
+        \end{column}
+        \begin{column}{0.5\textwidth}  
+          \begin{figure}[H]
+            \centering
+            \def\svgwidth{\linewidth}
+            \input{./fig/AOA.pdf_tex}
+          % \caption{Posicionamiento por tiempo de vuelo (TOA).}
+            \label{fig:AOA}
+        \end{figure}
+        \end{column}
+        \end{columns}
+      \end{frame}
+
+      \begin{frame}{Ángulo de llegada (AOA)}
+        \begin{columns}
+          \begin{column}{0.5\textwidth}
+            Cota inferior:
+            \begin{equation*}
+              \sigma^2(\phi) = \frac{c^2}{2\pi^2 \text{SNR} \beta^2 N(N^2-1)d\cos(\phi)}
+            \end{equation*}
+            con $N$ balizas.
+          \end{column}
+          \begin{column}{0.5\textwidth}  
+            \begin{figure}[H]
+              \centering
+              \def\svgwidth{\linewidth}
+              \input{./fig/AOA.pdf_tex}
+            % \caption{Posicionamiento por tiempo de vuelo (TOA).}
+              \label{fig:AOA}
+          \end{figure}
+          \end{column}
+          \end{columns}
+      \end{frame}
+
+  \begin{frame}{Tecnologías}
+    \begin{itemize}
+      \item Ultrasonido
+      \item Luz
+      \item Bluetooth
+      \item Wi-Fi
+      \item Ultra-Wide Band
+    \end{itemize}
+  \end{frame}
+
+  \section{Ultra-wide Band}
+  \begin{frame}{Ultra-wide Band}
+    Emisión de radiofrecuencia con un ancho de banda de al menos 500 MHz o más del 20\% de la frecuencia central.
+  \end{frame}
+
+  \begin{frame}{Ultra-wide Band}
+    Ventajas
+    \begin{itemize}
+      \item El gran ancho de banda permite pulsos muy cortos en el tiempo, lo que permite una gran resolución temporal.
+      \item Pocas probabilidades de interferencias.
+      \item Bajo consumo energético.
+      \item Gran capacidad de transmisión de datos.
+    \end{itemize}
+  \end{frame}
+
+\section{Metodología}
+
+  \begin{frame}{Sensores UWB}
+    \begin{columns}
+      \begin{column}{0.5\textwidth}
+        Se utilizó el kit comercial MDEK1001, de la empresa DecaWave
+
+        \vspace{0.5cm}
+        Realiza el posicionamiento con TOA y TDOA.
+
+        \vspace{0.5cm}
+        Anuncia una precisión de hasta 10cm.
+      \end{column}
+      \begin{column}{0.5\textwidth}  
+        \begin{figure}[H]
+          \centering
+          \includegraphics[width=0.45\textwidth]{pic/sensor.jpg}
+          % \caption{Módulo de sensor UWB DWM1001 dentro de la carcasa que lo contiene.}
+          \label{fig:robot}
+      \end{figure}
+      \end{column}
+    \end{columns}
+  \end{frame}
+
+  \begin{frame}{Robot}
+    \begin{columns}
+      \begin{column}{0.5\textwidth}
+        El robot autónomo utilizado fue el Turtlebot 2.
+
+        \vspace{0.5cm}
+        Es posible su uso con el entorno ROS.
+      \end{column}
+      \begin{column}{0.5\textwidth}  
+        \begin{figure}[H]
+          \centering
+          \includegraphics[width=0.65\textwidth]{pic/robot_fisica.jpg}
+          % \caption{Módulo de sensor UWB DWM1001 dentro de la carcasa que lo contiene.}
+          \label{fig:robot}
+      \end{figure}
+      \end{column}
+    \end{columns}
+  \end{frame}
+
+  \begin{frame}{Toma de datos}
+    Se eligieron dos escenarios para la toma de datos:
+    \begin{itemize}
+      \item Laboratorio de Robótica 0L3 del Instituto de Computación Científica Avanzada de la Universidad de Extremadura.
+      \item Primera planta del edificio B de la Facultad de Física.
+    \end{itemize}
+
+    \vspace{0.5cm}
+    Configurando uno de los sensores como objetivo se colocó encima del robot.
+
+    \vspace{0.5cm}
+    Se programaron trayectorias que recorrían los dos escenarios por el robot, recabando datos del posicionamiento local del robot y de los sensores de UWB.
+  \end{frame}
+
+\section{Resultados}
+  \begin{frame}{Resultados}
+    Se tomó el posicionamiento local del robot como \textit{ground truth}
+    \begin{equation*}\label{eq:Diff_eje}
+      \text{Error eje} = \text{Valor posición robot} - \text{Valor posición sensores}
+    \end{equation*}
+
+    Se interpretó el error de posicionamiento como el módulo del vector de diferencia entre los vectores de posición de robot y sensores
+    \begin{figure}[H]
+      \centering
+      \input{graph/diff_pos.tex}
+      % \caption{Definición del vector de error de posición.}
+      % \label{fig:diff_pos}
+    \end{figure}
+  \end{frame}
+
+\section{Laboratorio}
+
+  \begin{frame}{Laboratorio}
+    \begin{figure}[H]
+      \begin{subfigure}[b]{.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{pic/lab1.jpg}
+        % \caption{Eje x}
+        \label{fig:foto_lab1}
+      \end{subfigure}
+      \begin{subfigure}[b]{.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{pic/lab2.jpg}
+        % \caption{Eje y}
+        \label{fig:foto_lab2}
+      \end{subfigure}
+      \caption{Fotografías del laboratorio de Robótica del ICCAEx.}
+      \label{fig:foto_lab}
+    \end{figure}
+  \end{frame}
+
+  \begin{frame}{Laboratorio}
+    \begin{figure}[H]
+      \begin{subfigure}[b]{.3\textwidth}
+        \centering
+        \def\svgwidth{0.85\linewidth}
+        \input{./fig/lab.pdf_tex} 
+        \caption{Puntos a evaluar}
+        \label{fig:puntos}
+      \end{subfigure}
+      \begin{subfigure}[b]{.3\textwidth}
+        \centering
+        \def\svgwidth{0.85\linewidth}
+        \input{./fig/lab_espiral.pdf_tex} 
+        \caption{Trayectoria en espiral}
+        \label{fig:espiral}
+      \end{subfigure}
+      \begin{subfigure}[b]{.3\textwidth}
+          \centering
+          \def\svgwidth{0.85\linewidth}
+        \input{./fig/lab_vertical.pdf_tex} 
+          \caption{Trayectoria en vertical}
+          \label{fig:vertical}
+        \end{subfigure}
+      \caption{Disposición del laboratorio.}
+      \label{fig:laboratorio}
+      \end{figure}
+  \end{frame}
+
+  \begin{frame}{Laboratorio}
+    Configuración con 4 balizas
+    \begin{figure}[H]
+      \centering
+      \def\svgwidth{0.4\linewidth}
+      \input{./fig/lab_4sensores.pdf_tex} 
+      % \caption{4 balizas}
+      \label{fig:lab_4sens}
+    \end{figure}
+  \end{frame}
+
+  \begin{frame}{Laboratorio}
+    \begin{figure}[H]
+      \centering
+      \scalebox{0.6}{\input{graph/res/4sensores.pgf}}
+      % \caption{Resultados de las medidas del laboratorio con 6 balizas. Entre paréntesis se indica la desviación estándar de los errores obtenidos en cada punto.}
+      \label{fig:res_4_lab}
+  \end{figure}
+  \end{frame}
+  
+  \begin{frame}{Laboratorio}
+    \begin{table}[H]
+      \tiny
+      \hspace*{-0.5cm}
+      \centering
+      \begin{tabular}{c|c|c|c|c|c|}
+      \cline{2-6}
+                                       & \begin{tabular}[c]{@{}c@{}}Error en \\ eje $x$ (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en \\ eje $y$ (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en eje $x$ \\ (absoluto) (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en eje $y$ \\ (absoluto) (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en \\ posición(cm) \end{tabular}\\ \hline
+      \multicolumn{1}{|c|}{Media}      & -6.7  &  3.1  & 14.6 & 5.77 &  20.0   \\ \hline
+      \multicolumn{1}{|c|}{Mediana}    & -3.3  &  4.1  & 13.1 & 4.9 &  17.7   \\ \hline
+      \multicolumn{1}{|c|}{Desv. estándar} & 17.8  &  5.9  & 12.2 & 3.4 & 9.6    \\ \hline
+      \multicolumn{1}{|c|}{Máximo}     &  20.1 & 14.4  & 56.6 & 14.4 & 57.6   \\ \hline
+      \multicolumn{1}{|c|}{Mínimo}     & -56.6 & -12.4 & 0.5 & 0.7 & 7.2    \\ \hline
+      \end{tabular}
+      \caption{Resumen de los errores en el laboratorio con 4 balizas.}
+      \label{tab:resumen_lab_4}
+    \end{table}
+  \end{frame}
+
+  \begin{frame}{Laboratorio}
+    Configuración con 6 balizas
+    \begin{figure}[H]
+      \centering
+      \def\svgwidth{0.4\linewidth}
+      \input{./fig/lab_6sensores.pdf_tex} 
+      % \caption{4 balizas}
+      \label{fig:lab_6sens}
+    \end{figure}
+  \end{frame}
+
+  \begin{frame}{Laboratorio}
+    \begin{figure}[H]
+      \centering
+      \scalebox{0.6}{\input{graph/res/6sensores.pgf}}
+      % \caption{Resultados de las medidas del laboratorio con 6 balizas. Entre paréntesis se indica la desviación estándar de los errores obtenidos en cada punto.}
+      \label{fig:res_6_lab}
+  \end{figure}
+  \end{frame}
+
+  \begin{frame}{Laboratorio}
+    \begin{table}[H]
+      \tiny
+      \centering
+      \hspace*{-0.5cm}
+      \begin{tabular}{c|c|c|c|c|c|}
+      \cline{2-6}
+                                       & \begin{tabular}[c]{@{}c@{}}Error en \\ eje $x$ (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en \\ eje $y$ (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en eje $x$ \\ (absoluto) (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en eje $y$ \\ (absoluto) (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en \\ posición(cm) \end{tabular}\\ \hline
+      \multicolumn{1}{|c|}{Media}      & -3.7  & 0.7  &  9.6 &  7.7  &  19.2   \\ \hline
+      \multicolumn{1}{|c|}{Mediana}    & -2.2  & 2.08  &  8.8 &  6.0  &  18.2   \\ \hline
+      \multicolumn{1}{|c|}{Desv. estándar} & 11.0  &  10.3  & 6.5 & 6.8 &  6.1    \\ \hline
+      \multicolumn{1}{|c|}{Máximo}     & 15.9  & 17.4  & 24.9 & 33.9 & 35.8   \\ \hline
+      \multicolumn{1}{|c|}{Mínimo}     & -24.9 & -33.9 & 0.1 & 0.1 &  8.6    \\ \hline
+      \end{tabular}
+      \caption{Resumen de los errores en el laboratorio con 6 balizas.}
+  \end{table}
+  \end{frame}
+
+  \begin{frame}{Laboratorio}
+    \begin{figure}[H]
+      \centering
+        \begin{subfigure}[b]{.3\textwidth}
+          \centering
+          \hspace*{-0.8cm}
+          \input{./graph/boxplot_x.tex} 
+          \vspace*{-0.5cm}
+          \caption{Eje x}
+          \label{fig:boxplot_lab_x}
+        \end{subfigure}
+        \hspace*{0.1cm}
+        \begin{subfigure}[b]{.3\textwidth}
+          \centering
+          \input{./graph/boxplot_y.tex}  
+          \vspace*{-0.5cm}
+          \caption{Eje y}
+          \label{fig:boxplot_lab_y}
+        \end{subfigure}
+        \hspace*{0.1cm}
+        \begin{subfigure}[b]{.3\textwidth}
+            \centering
+            \input{./graph/boxplot_pos.tex}  
+            \caption{Posición}
+            \label{fig:boxplot_lab_pos}
+          \end{subfigure}
+        % \caption{Comparación del rendimiento de las configuraciones de balizas en el laboratorio.}
+        \label{fig:boxplot_lab}
+    \end{figure}
+  \end{frame}
+  
+
+  \section{Edificio de Física}
+
+  \begin{frame}{Edificio de Física}
+    \begin{figure}[h]
+      \begin{subfigure}[b]{.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{pic/fisica1.jpg}
+        % \caption{Eje x}
+        \label{fig:foto_fisica1}
+      \end{subfigure}
+      \begin{subfigure}[b]{.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{pic/fisica2.jpg}
+        % \caption{Eje y}
+        \label{fig:foto_fisica2}
+      \end{subfigure}
+      \caption{Fotografías del edificio B de la Facultad de Física.}
+      \label{fig:foto_fisica}
+    \end{figure}
+  \end{frame}
+
+  \begin{frame}{Edificio de Física}
+    \begin{figure}[H]
+      \begin{subfigure}[b]{.42\textwidth}
+        \centering
+        \def\svgwidth{\linewidth}
+        \input{./fig/fisica_num.pdf_tex} 
+        \caption{Puntos a evaluar}
+        \label{fig:puntos_fisica}
+      \end{subfigure}
+      ~~
+      \begin{subfigure}[b]{.42\textwidth}
+        \centering
+        \def\svgwidth{\linewidth}
+        \input{./fig/fisica_tray.pdf_tex} 
+        \caption{Trayectoria}
+        \label{fig:trayecto_fisica}
+      \end{subfigure}
+      \caption{Disposición de la planta del edificio de Física.}
+      \label{fig:fisica}
+    \end{figure}
+  \end{frame}
+
+  \begin{frame}{Edificio de Física}
+    Configuración de 4 balizas
+    \begin{figure}[H]
+      \centering
+      \def\svgwidth{0.5\linewidth}
+      \input{./fig/fisica_4sens.pdf_tex} 
+      % \caption{4 balizas}
+      \label{fig:sensores_fisica_4}
+    \end{figure}
+  \end{frame}
+  
+  \begin{frame}{Edificio de Física}
+    \begin{figure}[H]
+      \centering
+      \scalebox{0.6}{\input{graph/res/fisica_4sensores.pgf}}
+      \label{fig:res_fisica_4}
+    \end{figure}
+  \end{frame}
+  
+    \begin{frame}{Edificio de Física}
+      \begin{table}[H]
+        \tiny
+        \hspace*{-0.5cm}
+        \centering
+        \begin{tabular}{c|c|c|c|c|c|}
+        \cline{2-6}
+                                                  & \begin{tabular}[c]{@{}c@{}}Error en \\ eje $x$ (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en \\ eje $y$ (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en eje $x$ \\ (absoluto) (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en eje $y$ \\ (absoluto) (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en \\ posición(cm) \end{tabular}\\ \hline
+        \multicolumn{1}{|c|}{Media}               &   0.5   &   -8.6  &      15.3          &         15.4       &  26.1    \\ \hline
+        \multicolumn{1}{|c|}{Mediana}             &   3.4   &   2.08  &      13.7          &         11.2       &  25.9    \\ \hline
+        \multicolumn{1}{|c|}{Desv. estándar} &   18.4  &   10.2  &      18.7          &         13.8       &  12.5    \\ \hline
+        \multicolumn{1}{|c|}{Máximo}              &   27.8  &   39.9  &      40.8          &         49.6       &  52.3    \\ \hline
+        \multicolumn{1}{|c|}{Mínimo}              &  -40.8  &   -49.6 &      2.3           &         0.5        &  5.5     \\ \hline
+        \end{tabular}
+        \caption{Resumen de los errores en el edificio de Física con 4 balizas.}
+        \label{tab:media_fisica_4}
+      \end{table}
+    \end{frame}
+
+  \begin{frame}{Edificio de Física}
+    Configuración de 6 balizas
+    \begin{figure}[H]
+      \centering
+      \def\svgwidth{0.5\linewidth}
+      \input{./fig/fisica_6sens.pdf_tex} 
+      % \caption{6 balizas}
+      \label{fig:sensores_fisica_6}
+    \end{figure}
+  \end{frame}
+
+  \begin{frame}{Edificio de Física}
+    \begin{figure}[H]
+      \centering
+      \scalebox{0.6}{\input{graph/res/fisica_6sensores.pgf}}
+      \label{fig:res_fisica_6}
+  \end{figure}
+  \end{frame}
+
+  \begin{frame}{Edificio de Física}
+    \begin{table}[H]
+      \tiny
+      \hspace*{-0.5cm}
+      \centering
+      \begin{tabular}{c|c|c|c|c|c|}
+        \cline{2-6}
+                                                  & \begin{tabular}[c]{@{}c@{}}Error en \\ eje $x$ (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en \\ eje $y$ (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en eje $x$ \\ (absoluto) (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en eje $y$ \\ (absoluto) (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en \\ posición(cm) \end{tabular}\\ \hline
+        \multicolumn{1}{|c|}{Media}               &  -4.7   &   -11.9 &      16.0          &         12.1       &  23.7    \\ \hline
+        \multicolumn{1}{|c|}{Mediana}             &  -3.8   &   -10.4 &      17.7          &         10.3       &  22.7    \\ \hline
+        \multicolumn{1}{|c|}{Desv. estándar} &   18.7  &   10.5  &      10.8          &         10.1       &  10.9    \\ \hline
+        \multicolumn{1}{|c|}{Máximo}              &   32.1  &   1.1   &      40.8          &         30.8       &  44.1    \\ \hline
+        \multicolumn{1}{|c|}{Mínimo}              &  -40.7  &   -30.9 &      3.3           &         0.4        &  7.8     \\ \hline
+    \end{tabular}
+    \caption{Resumen de los errores en el edificio de Física con 6 balizas.}
+    \label{tab:media_fisica_6}
+    \end{table}
+  \end{frame}
+
+  \begin{frame}{Edificio de Física}
+    Configuración de 8 balizas
+    \begin{figure}[H]
+      \centering
+      \def\svgwidth{0.5\linewidth}
+      \input{./fig/fisica_8sens.pdf_tex} 
+      % \caption{8 balizas}
+      \label{fig:sensores_fisica_8}
+    \end{figure}
+  \end{frame}
+
+  \begin{frame}{Edificio de Física}
+    \begin{figure}[H]
+      \centering
+      \scalebox{0.6}{\input{graph/res/fisica_8sensores.pgf}}
+      \label{fig:res_fisica_8}
+  \end{figure}
+  \end{frame}
+
+  \begin{frame}{Edificio de Física}
+    \begin{table}[H]
+      \tiny
+      \hspace*{-0.5cm}
+      \centering
+      \begin{tabular}{c|c|c|c|c|c|}
+        \cline{2-6}
+                                                  & \begin{tabular}[c]{@{}c@{}}Error en \\ eje $x$ (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en \\ eje $y$ (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en eje $x$ \\ (absoluto) (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en eje $y$ \\ (absoluto) (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en \\ posición(cm) \end{tabular}\\ \hline
+        \multicolumn{1}{|c|}{Media}               &  -3.5   &  -6.2   &      11.9          &         13.7       &  22.3    \\ \hline
+        \multicolumn{1}{|c|}{Mediana}             &  -4.7   &  -7.1   &      11.4          &         9.6        &  19.1    \\ \hline
+        \multicolumn{1}{|c|}{Desv. estándar} &  13.6   &   12.3  &      7.5           &         12.3       &  12.2    \\ \hline
+        \multicolumn{1}{|c|}{Máximo}              &  21.0   &   48.9  &      25.8          &         48.9       &  55.5    \\ \hline
+        \multicolumn{1}{|c|}{Mínimo}              &  -40.7  &  -30.5  &      3.3           &         1.5        &  5.6     \\ \hline
+    \end{tabular}
+    \caption{Resumen de los errores en el edificio de Física con 8 balizas.}
+    \label{tab:media_fisica_8}
+    \end{table}
+  \end{frame}
+
+  \begin{frame}{Edificio de Física}
+    \begin{figure}[H]
+      \centering
+        \begin{subfigure}[b]{.3\textwidth}
+          \centering
+          \hspace*{-0.8cm}
+          \input{./graph/boxplot_fisica_x.tex} 
+          % \vspace*{-0.5cm}
+          \caption{Eje x}
+          \label{fig:boxplot_fisica_x}
+        \end{subfigure}
+        \hspace*{0.1cm}
+        \begin{subfigure}[b]{.3\textwidth}
+          \centering
+          \input{./graph/boxplot_fisica_y.tex}  
+          % \vspace*{-0.5cm}
+          \caption{Eje y}
+          \label{fig:boxplot_fisica_y}
+        \end{subfigure}
+        ~~~~
+        \begin{subfigure}[b]{.3\textwidth}
+            \centering
+            \input{./graph/boxplot_fisica_pos.tex}  
+            \caption{Posición}
+            \label{fig:boxplot_fisica_pos}
+          \end{subfigure}
+        % \caption{Comparación del rendimiento de las configuraciones de balizas en el edificio de Física.}
+        \label{fig:boxplot_fisica}
+    \end{figure}
+  \end{frame}
+
+\section{Conclusiones}
+\begin{frame}{Conclusiones}
+  Al usar solo 4 balizas en todo momento, la posición de las balizas es crítica para un correcto posicionamiento.
+
+  En general, se obtienen errores dos órdenes de magnitud menores que la superficie total.
+\end{frame}
+
+\end{document}
