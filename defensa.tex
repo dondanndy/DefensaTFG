@@ -33,14 +33,43 @@
 
 
 \usetheme{metropolis}           % Use metropolis theme
+\setbeamercolor{background canvas}{fg=black,bg=white}
+\setbeamertemplate{frame footer}{\insertsection}
 \title{Estudio del posicionamiento de un robot móvil mediante sensores "Ultra-wide Band"}
-\date{\today}
-\author{Daniel A. Durán García}
-% \institute{Centre for Modern Beamer Themes}
+\subtitle{Trabajo de Fin de Grado}
+\date{24 de septiembre de 2020}
+\author{Daniel A. Durán García \\ Tutor: Carlos Javier García Orellana}
+\institute{Universidad de Extremadura}
+\logo{\includegraphics[height=2cm]{pic/uex_logo_2.png}}
 
 
 \begin{document}
-  \maketitle
+  % \maketitle
+  % \begin{frame}
+
+  %   \title[About Beamer] %optional
+  %   {About the Beamer class in presentation making}
+
+  %   \subtitle{A short story}
+  % \end{frame}
+
+  \frame{\titlepage}
+  \logo{}
+  
+  \begin{frame}{Índice}
+    \begin{enumerate}
+      \item Posicionamiento local
+      \item Técnicas de posicionamiento
+      \item Metodología
+      \item Resultados
+      \begin{itemize}
+        \item Laboratorio
+        \item Edificio de Física
+      \end{itemize}
+      \item Conclusiones
+    \end{enumerate}
+    \end{frame}
+
 
   \section{Posicionamiento local}
     \begin{frame}{Posicionamiento local}
@@ -64,21 +93,21 @@
     \end{itemize}
     \end{frame}
 
-    \begin{frame}{Técnicas geométricas}
-    De forma general
-      \begin{equation*}\label{eq:geom}
-        \vb{r} = \vb{f}(x_1, x_2, \ldots, x_n) + \vb{n}
-      \end{equation*}
+    % \begin{frame}{Técnicas geométricas}
+    % De forma general
+    %   \begin{equation*}\label{eq:geom}
+    %     \vb{r} = \vb{f}(x_1, x_2, \ldots, x_n) + \vb{n}
+    %   \end{equation*}
 
-      Límite teórico (Cota inferior de Cramer Rao):
-      \begin{equation*}
-        \sigma^2(\theta_i) \geq [\mathcal{I}(\bm{\theta})^{-1}]_{ii}
-      \end{equation*}
-      donde
-      \begin{equation*}
-        [\mathcal{I}(\bm{\theta})]_{ij} = \frac{1}{\sigma^2} \sum_{n=0}^{N=1} \pdv{s[n,\bm{\theta}]}{\theta_i}\pdv{s[n,\bm{\theta}]}{\theta_j}
-      \end{equation*}
-    \end{frame}
+    %   Límite teórico (Cota inferior de Cramer Rao):
+    %   \begin{equation*}
+    %     \sigma^2(\theta_i) \geq [\mathcal{I}(\bm{\theta})^{-1}]_{ii}
+    %   \end{equation*}
+    %   donde
+    %   \begin{equation*}
+    %     [\mathcal{I}(\bm{\theta})]_{ij} = \frac{1}{\sigma^2} \sum_{n=0}^{N=1} \pdv{s[n,\bm{\theta}]}{\theta_i}\pdv{s[n,\bm{\theta}]}{\theta_j}
+    %   \end{equation*}
+    % \end{frame}
 
     \begin{frame}{Tiempo de vuelo (TOA)}
       \begin{columns}
@@ -100,29 +129,29 @@
       \end{columns}
     \end{frame}
 
-    \begin{frame}{Tiempo de vuelo (TOA)}
-      \begin{columns}
-        \begin{column}{0.5\textwidth}
-          Cota inferior:
-          \begin{equation*}\label{eq:CRLB_TOA}
-            \text{CRLB} = \sigma^2(\tau) \geq \frac{1}{8\pi^2\text{SNR}\beta^2}
-        \end{equation*}
-        donde
-        \begin{equation*}
-          \beta^2 = \frac{\int_{-\infty}^{\infty} \omega^2 \abs{S(\omega)}^2\dd{\omega}}{\int_{-\infty}^{\infty} \abs{S(\omega)}^2\dd{\omega}}
-      \end{equation*}
-        \end{column}
-        \begin{column}{0.5\textwidth}  
-          \begin{figure}[H]
-            \centering
-            \def\svgwidth{\linewidth}
-            \input{./fig/TOA.pdf_tex}
-          % \caption{Posicionamiento por tiempo de vuelo (TOA).}
-            \label{fig:TOA}
-        \end{figure}
-        \end{column}
-      \end{columns}
-    \end{frame}
+    % \begin{frame}{Tiempo de vuelo (TOA)}
+    %   \begin{columns}
+    %     \begin{column}{0.5\textwidth}
+    %       Cota inferior:
+    %       \begin{equation*}\label{eq:CRLB_TOA}
+    %         \text{CRLB} = \sigma^2(\tau) \geq \frac{1}{8\pi^2\text{SNR}\beta^2}
+    %     \end{equation*}
+    %     donde
+    %     \begin{equation*}
+    %       \beta^2 = \frac{\int_{-\infty}^{\infty} \omega^2 \abs{S(\omega)}^2\dd{\omega}}{\int_{-\infty}^{\infty} \abs{S(\omega)}^2\dd{\omega}}
+    %   \end{equation*}
+    %     \end{column}
+    %     \begin{column}{0.5\textwidth}  
+    %       \begin{figure}[H]
+    %         \centering
+    %         \def\svgwidth{\linewidth}
+    %         \input{./fig/TOA.pdf_tex}
+    %       % \caption{Posicionamiento por tiempo de vuelo (TOA).}
+    %         \label{fig:TOA}
+    %     \end{figure}
+    %     \end{column}
+    %   \end{columns}
+    % \end{frame}
 
     \begin{frame}{Diferencia de tiempo de vuelo (TDOA)}
       \begin{columns}
@@ -163,30 +192,30 @@
         \end{columns}
     \end{frame}
 
-    \begin{frame}{Potencia percibida (RSSI)}
-      \begin{columns}
-        \begin{column}{0.5\textwidth}
-          Ecuación general del decaimiento de la potencia de la señal:
-          \begin{equation*}\label{eq:RSSI}
-            p(r) = p(r_0) - 10n\log(\frac{r}{r_0})
-          \end{equation*}
+    % \begin{frame}{Potencia percibida (RSSI)}
+    %   \begin{columns}
+    %     \begin{column}{0.5\textwidth}
+    %       Ecuación general del decaimiento de la potencia de la señal:
+    %       \begin{equation*}\label{eq:RSSI}
+    %         p(r) = p(r_0) - 10n\log(\frac{r}{r_0})
+    %       \end{equation*}
 
-          Cota inferior:
-          \begin{equation*}\label{eq:CRLB_RSSI}
-            \sigma^2(d_i) = \frac{\ln(10)\sigma_{sh}d}{10n}
-        \end{equation*}
-        \end{column}
-        \begin{column}{0.5\textwidth}  
-          \begin{figure}[H]
-            \centering
-            \def\svgwidth{\linewidth}
-            \input{./fig/TOA.pdf_tex}
-          % \caption{Posicionamiento por tiempo de vuelo (TOA).}
-            \label{fig:TOA}
-        \end{figure}
-        \end{column}
-        \end{columns}
-    \end{frame}
+    %       Cota inferior:
+    %       \begin{equation*}\label{eq:CRLB_RSSI}
+    %         \sigma^2(d_i) = \frac{\ln(10)\sigma_{sh}d}{10n}
+    %     \end{equation*}
+    %     \end{column}
+    %     \begin{column}{0.5\textwidth}  
+    %       \begin{figure}[H]
+    %         \centering
+    %         \def\svgwidth{\linewidth}
+    %         \input{./fig/TOA.pdf_tex}
+    %       % \caption{Posicionamiento por tiempo de vuelo (TOA).}
+    %         \label{fig:TOA}
+    %     \end{figure}
+    %     \end{column}
+    %     \end{columns}
+    % \end{frame}
 
     \begin{frame}{Ángulo de llegada (AOA)}
       \begin{columns}
@@ -208,26 +237,26 @@
         \end{columns}
       \end{frame}
 
-      \begin{frame}{Ángulo de llegada (AOA)}
-        \begin{columns}
-          \begin{column}{0.5\textwidth}
-            Cota inferior:
-            \begin{equation*}
-              \sigma^2(\phi) = \frac{c^2}{2\pi^2 \text{SNR} \beta^2 N(N^2-1)d\cos(\phi)}
-            \end{equation*}
-            con $N$ balizas.
-          \end{column}
-          \begin{column}{0.5\textwidth}  
-            \begin{figure}[H]
-              \centering
-              \def\svgwidth{\linewidth}
-              \input{./fig/AOA.pdf_tex}
-            % \caption{Posicionamiento por tiempo de vuelo (TOA).}
-              \label{fig:AOA}
-          \end{figure}
-          \end{column}
-          \end{columns}
-      \end{frame}
+      % \begin{frame}{Ángulo de llegada (AOA)}
+      %   \begin{columns}
+      %     \begin{column}{0.5\textwidth}
+      %       Cota inferior:
+      %       \begin{equation*}
+      %         \sigma^2(\phi) = \frac{c^2}{2\pi^2 \text{SNR} \beta^2 N(N^2-1)d\cos(\phi)}
+      %       \end{equation*}
+      %       con $N$ balizas.
+      %     \end{column}
+      %     \begin{column}{0.5\textwidth}  
+      %       \begin{figure}[H]
+      %         \centering
+      %         \def\svgwidth{\linewidth}
+      %         \input{./fig/AOA.pdf_tex}
+      %       % \caption{Posicionamiento por tiempo de vuelo (TOA).}
+      %         \label{fig:AOA}
+      %     \end{figure}
+      %     \end{column}
+      %     \end{columns}
+      % \end{frame}
 
   \begin{frame}{Tecnologías}
     \begin{itemize}
@@ -300,6 +329,25 @@
     \end{columns}
   \end{frame}
 
+  \begin{frame}{Robot}
+    \begin{columns}
+      \begin{column}{0.5\textwidth}
+        ROS incluye un paquete de navegación autónoma del robot.
+
+        \vspace{0.5cm}
+        En un entorno controlado, permite enviar coordenadas a las que el robot se desplace, evitando obstáculos.
+      \end{column}
+      \begin{column}{0.5\textwidth}
+        \begin{figure}[H]
+          \centering
+          \includegraphics[width=\textwidth]{pic/Trayectoria.png}
+          % \caption{Módulo de sensor UWB DWM1001 dentro de la carcasa que lo contiene.}
+          \label{fig:robot}
+      \end{figure}
+      \end{column}
+    \end{columns}
+  \end{frame}
+
   \begin{frame}{Toma de datos}
     Se eligieron dos escenarios para la toma de datos:
     \begin{itemize}
@@ -312,6 +360,17 @@
 
     \vspace{0.5cm}
     Se programaron trayectorias que recorrían los dos escenarios por el robot, recabando datos del posicionamiento local del robot y de los sensores de UWB.
+  \end{frame}
+
+  \begin{frame}{Toma de datos}
+    Previamente a la toma de datos con el robot, se realizaron simulaciones de las trayectorias en el simulador Stage incluido en ROS.
+
+    \begin{figure}[H]
+      \centering
+      \includegraphics[height=5cm]{pic/Stage-rviz.png}
+      % \caption{Módulo de sensor UWB DWM1001 dentro de la carcasa que lo contiene.}
+      \label{fig:robot}
+  \end{figure}
   \end{frame}
 
 \section{Resultados}
@@ -330,7 +389,7 @@
     \end{figure}
   \end{frame}
 
-\section{Laboratorio}
+\section[Laboratorio]{Resultados}
 
   \begin{frame}{Laboratorio}
     \begin{figure}[H]
@@ -379,7 +438,7 @@
       \end{figure}
   \end{frame}
 
-  \begin{frame}{Laboratorio}
+  \begin{frame}{Laboratorio - Prueba con 4 balizas}
     Configuración con 4 balizas
     \begin{figure}[H]
       \centering
@@ -390,7 +449,7 @@
     \end{figure}
   \end{frame}
 
-  \begin{frame}{Laboratorio}
+  \begin{frame}{Laboratorio - Prueba con 4 balizas}
     \begin{figure}[H]
       \centering
       \scalebox{0.6}{\input{graph/res/4sensores.pgf}}
@@ -399,7 +458,7 @@
   \end{figure}
   \end{frame}
   
-  \begin{frame}{Laboratorio}
+  \begin{frame}{Laboratorio - Prueba con 4 balizas}
     \begin{table}[H]
       \tiny
       \hspace*{-0.5cm}
@@ -418,7 +477,7 @@
     \end{table}
   \end{frame}
 
-  \begin{frame}{Laboratorio}
+  \begin{frame}{Laboratorio - Prueba con 6 balizas}
     Configuración con 6 balizas
     \begin{figure}[H]
       \centering
@@ -429,7 +488,7 @@
     \end{figure}
   \end{frame}
 
-  \begin{frame}{Laboratorio}
+  \begin{frame}{Laboratorio - Prueba con 6 balizas}
     \begin{figure}[H]
       \centering
       \scalebox{0.6}{\input{graph/res/6sensores.pgf}}
@@ -438,7 +497,7 @@
   \end{figure}
   \end{frame}
 
-  \begin{frame}{Laboratorio}
+  \begin{frame}{Laboratorio - Prueba con 6 balizas}
     \begin{table}[H]
       \tiny
       \centering
@@ -488,7 +547,7 @@
   \end{frame}
   
 
-  \section{Edificio de Física}
+  \section[Edificio de Física]{Resultados}
 
   \begin{frame}{Edificio de Física}
     \begin{figure}[h]
@@ -531,7 +590,7 @@
     \end{figure}
   \end{frame}
 
-  \begin{frame}{Edificio de Física}
+  \begin{frame}{Edificio de Física - Prueba con 4 balizas}
     Configuración de 4 balizas
     \begin{figure}[H]
       \centering
@@ -542,7 +601,7 @@
     \end{figure}
   \end{frame}
   
-  \begin{frame}{Edificio de Física}
+  \begin{frame}{Edificio de Física - Prueba con 4 balizas}
     \begin{figure}[H]
       \centering
       \scalebox{0.6}{\input{graph/res/fisica_4sensores.pgf}}
@@ -550,7 +609,7 @@
     \end{figure}
   \end{frame}
   
-    \begin{frame}{Edificio de Física}
+    \begin{frame}{Edificio de Física - Prueba con 4 balizas}
       \begin{table}[H]
         \tiny
         \hspace*{-0.5cm}
@@ -569,7 +628,7 @@
       \end{table}
     \end{frame}
 
-  \begin{frame}{Edificio de Física}
+  \begin{frame}{Edificio de Física - Prueba con 6 balizas}
     Configuración de 6 balizas
     \begin{figure}[H]
       \centering
@@ -580,7 +639,7 @@
     \end{figure}
   \end{frame}
 
-  \begin{frame}{Edificio de Física}
+  \begin{frame}{Edificio de Física - Prueba con 6 balizas}
     \begin{figure}[H]
       \centering
       \scalebox{0.6}{\input{graph/res/fisica_6sensores.pgf}}
@@ -588,7 +647,7 @@
   \end{figure}
   \end{frame}
 
-  \begin{frame}{Edificio de Física}
+  \begin{frame}{Edificio de Física - Prueba con 6 balizas}
     \begin{table}[H]
       \tiny
       \hspace*{-0.5cm}
@@ -607,7 +666,7 @@
     \end{table}
   \end{frame}
 
-  \begin{frame}{Edificio de Física}
+  \begin{frame}{Edificio de Física - Prueba con 8 balizas}
     Configuración de 8 balizas
     \begin{figure}[H]
       \centering
@@ -618,7 +677,7 @@
     \end{figure}
   \end{frame}
 
-  \begin{frame}{Edificio de Física}
+  \begin{frame}{Edificio de Física - Prueba con 8 balizas}
     \begin{figure}[H]
       \centering
       \scalebox{0.6}{\input{graph/res/fisica_8sensores.pgf}}
@@ -626,7 +685,7 @@
   \end{figure}
   \end{frame}
 
-  \begin{frame}{Edificio de Física}
+  \begin{frame}{Edificio de Física - Prueba con 8 balizas}
     \begin{table}[H]
       \tiny
       \hspace*{-0.5cm}
@@ -681,6 +740,10 @@
   Al usar solo 4 balizas en todo momento, la posición de las balizas es crítica para un correcto posicionamiento.
 
   En general, se obtienen errores dos órdenes de magnitud menores que la superficie total.
+
+  La presencia de obstáculos que evitan la visión directa tienen un efecto crítico en el posicionamiento.
+
+  Aunque la tecnología UWB ofrece el mejor rendimiento entre sus rivales, sus puntos débiles hacen que el problema del posicionamiento no esté del todo resuelto.
 \end{frame}
 
 \end{document}
