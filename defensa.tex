@@ -1,4 +1,4 @@
-\documentclass{beamer}
+\documentclass[xcolor=table]{beamer}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \DeclareUnicodeCharacter{2212}{-}
@@ -15,8 +15,8 @@
 \usepackage{tikz}
 \usepackage{pgfplots}
 \pgfplotsset{compat=newest}
-\usepackage[font=small,justification=centering]{caption}
-\usepackage{subcaption}
+\usepackage[font=small,justification=centering,labelformat=empty]{caption}
+\usepackage[labelformat=empty]{subcaption}
 \usetikzlibrary{arrows,shapes,positioning,calc,babel,pgfplots.groupplots, pgfplots.statistics}
 \usepackage{pgfkeys} % LATEX
 \usepackage{pgffor}
@@ -73,9 +73,19 @@
 
   \section{Posicionamiento local}
     \begin{frame}{Posicionamiento local}
-      En interiores es imposible utilizar tecnologías de posicionamiento global basadas en señal de satélites.
+      En interiores es imposible utilizar tecnologías de posicionamiento global basadas en señal de satélites (GPS).
 
       Existen tecnologías alternativas con mayor precisión destinadas a su uso en estos entornos interiores.
+      
+      \vspace*{-0.4cm}
+      \begin{figure}[H]
+        \centering
+        \def\svgwidth{1.25\linewidth}
+        \hspace*{-0.2cm}
+        \input{./fig/general.pdf_tex}
+      % \caption{Posicionamiento por tiempo de vuelo (TOA).}
+        \label{fig:general}
+      \end{figure}
     \end{frame}
 
   \section{Técnicas de posicionamiento}
@@ -84,6 +94,7 @@
     \begin{itemize}
       \item \textit{Fingerprinting}
       \item Algoritmos geométricos
+      % Machine Learning
       \begin{itemize}
         \item Tiempo de vuelo (TOA)
         \item Diferencia de tiempo de vuelo (TDOA)
@@ -266,6 +277,7 @@
       \item Wi-Fi
       \item Ultra-Wide Band
     \end{itemize}
+    % Precsion temporal menor imposibilita el uso de tecnicas geometricas.
   \end{frame}
 
   \section{Ultra-wide Band}
@@ -280,7 +292,7 @@
     Ventajas
     \begin{itemize}
       \item El gran ancho de banda permite pulsos muy cortos en el tiempo, lo que permite una gran resolución temporal.
-      \item Pocas probabilidades de interferencias.
+      \item Pocas probabilidades de interferencias. %Influencia
       \item Bajo consumo energético.
       \item Gran capacidad de transmisión de datos.
     \end{itemize}
@@ -365,9 +377,12 @@
   \begin{frame}{Toma de datos}
     Previamente a la toma de datos con el robot, se realizaron simulaciones de las trayectorias en el simulador Stage incluido en ROS.
 
+    Para una navegación más precisa, se realizaron de forma previa los mapas de ambos escenarios usados en dicha simulación y en la navegación con el robot.
+    % Hicimos los mapas.
+
     \begin{figure}[H]
       \centering
-      \includegraphics[height=5cm]{pic/Stage-rviz.png}
+      \includegraphics[height=3.5cm]{pic/Stage-rviz.png}
       % \caption{Módulo de sensor UWB DWM1001 dentro de la carcasa que lo contiene.}
       \label{fig:robot}
   \end{figure}
@@ -375,12 +390,12 @@
 
 \section{Resultados}
   \begin{frame}{Resultados}
-    Se tomó el posicionamiento local del robot como \textit{ground truth}
+    Se tomó el posicionamiento local del robot como \textit{ground truth}:
     \begin{equation*}\label{eq:Diff_eje}
       \text{Error eje} = \text{Valor posición robot} - \text{Valor posición sensores}
     \end{equation*}
 
-    Se interpretó el error de posicionamiento como el módulo del vector de diferencia entre los vectores de posición de robot y sensores
+    Se interpretó el error de posicionamiento como el módulo del vector de diferencia entre los vectores de posición de robot y sensores.
     \begin{figure}[H]
       \centering
       \input{graph/diff_pos.tex}
@@ -392,6 +407,7 @@
 \section[Laboratorio]{Resultados}
 
   \begin{frame}{Laboratorio}
+    En el laboratorio se podía encontrar una superficie amplia sin obstáculos.
     \begin{figure}[H]
       \begin{subfigure}[b]{.45\textwidth}
         \centering
@@ -405,18 +421,19 @@
         % \caption{Eje y}
         \label{fig:foto_lab2}
       \end{subfigure}
-      % \caption{Fotografías del laboratorio de Robótica del ICCAEx.}
+      \caption{Fotografías del laboratorio de Robótica del ICCAEx.}
       \label{fig:foto_lab}
     \end{figure}
   \end{frame}
 
-  \begin{frame}{Laboratorio - Disposición del laboratorio}
+  \begin{frame}{Laboratorio - Puntos a medir y trayectoria}
+    % Comentar aqui las repeticiones de las trayectorias.
     \begin{figure}[H]
       \begin{subfigure}[b]{.3\textwidth}
         \centering
         \def\svgwidth{0.85\linewidth}
         \input{./fig/lab.pdf_tex} 
-        \caption{Puntos a \\evaluar}
+        \caption{Puntos a evaluar}
         \label{fig:puntos}
       \end{subfigure}
       \begin{subfigure}[b]{.3\textwidth}
@@ -433,13 +450,13 @@
           \caption{Trayectoria en vertical}
           \label{fig:vertical}
         \end{subfigure}
-      % \caption{Disposición del laboratorio.}
+      % \caption{Puntos de medida del laboratorio y trayectorias a recorrer por el robot.}
       \label{fig:laboratorio}
       \end{figure}
   \end{frame}
 
   \begin{frame}{Laboratorio - Prueba con 4 balizas}
-    Configuración con 4 balizas
+    % Configuración con 4 balizas 
     \begin{figure}[H]
       \centering
       \def\svgwidth{0.4\linewidth}
@@ -449,7 +466,7 @@
     \end{figure}
   \end{frame}
 
-  \begin{frame}{Laboratorio - Prueba con 4 balizas}
+  \begin{frame}{Laboratorio - Resultados con 4 balizas}
     \begin{figure}[H]
       \centering
       \scalebox{0.6}{\input{graph/res/4sensores.pgf}}
@@ -458,21 +475,21 @@
   \end{figure}
   \end{frame}
   
-  \begin{frame}{Laboratorio - Prueba con 4 balizas}
+  \begin{frame}{Laboratorio - Resultados con 4 balizas}
     \begin{table}[H]
       \tiny
       \hspace*{-0.5cm}
       \centering
       \begin{tabular}{c|c|c|c|c|c|}
       \cline{2-6}
-                                       & \begin{tabular}[c]{@{}c@{}}Error en \\ eje $x$ (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en \\ eje $y$ (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en eje $x$ \\ (absoluto) (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en eje $y$ \\ (absoluto) (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en \\ posición(cm) \end{tabular}\\ \hline
-      \multicolumn{1}{|c|}{Media}      & -6.7  &  3.1  & 14.6 & 5.77 &  20.0   \\ \hline
-      \multicolumn{1}{|c|}{Mediana}    & -3.3  &  4.1  & 13.1 & 4.9 &  17.7   \\ \hline
-      \multicolumn{1}{|c|}{Desv. estándar} & 17.8  &  5.9  & 12.2 & 3.4 & 9.6    \\ \hline
-      \multicolumn{1}{|c|}{Máximo}     &  20.1 & 14.4  & 56.6 & 14.4 & 57.6   \\ \hline
-      \multicolumn{1}{|c|}{Mínimo}     & -56.6 & -12.4 & 0.5 & 0.7 & 7.2    \\ \hline
+                                       & \begin{tabular}[c]{@{}c@{}}Error en \\ eje $x$ (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en \\ eje $y$ (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en eje $x$ \\ (absoluto) (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en eje $y$ \\ (absoluto) (cm) \end{tabular} & \cellcolor[HTML]{C0C0C0} \begin{tabular}[c]{@{}c@{}} Error en \\ posición(cm) \end{tabular}\\ \hline
+      \multicolumn{1}{|c|}{Media}      & -6.7  &  3.1  & 14.6 & 5.77 &  \cellcolor[HTML]{C0C0C0} 20.0   \\ \hline
+      \multicolumn{1}{|c|}{Mediana}    & -3.3  &  4.1  & 13.1 & 4.9 &  \cellcolor[HTML]{C0C0C0} 17.7   \\ \hline
+      \multicolumn{1}{|c|}{Desv. estándar} & 17.8  &  5.9  & 12.2 & 3.4 & \cellcolor[HTML]{C0C0C0} 9.6    \\ \hline
+      \multicolumn{1}{|c|}{Máximo}     &  20.1 & 14.4  & 56.6 & 14.4 & \cellcolor[HTML]{C0C0C0} 57.6   \\ \hline
+      \multicolumn{1}{|c|}{Mínimo}     & -56.6 & -12.4 & 0.5 & 0.7 & \cellcolor[HTML]{C0C0C0} 7.2    \\ \hline
       \end{tabular}
-      % \caption{Resumen de los errores en el laboratorio con 4 balizas.}
+      \caption{Resumen de los errores en el laboratorio con 4 balizas.}
       \label{tab:resumen_lab_4}
     \end{table}
   \end{frame}
@@ -488,7 +505,7 @@
     \end{figure}
   \end{frame}
 
-  \begin{frame}{Laboratorio - Prueba con 6 balizas}
+  \begin{frame}{Laboratorio - Resultados con 6 balizas}
     \begin{figure}[H]
       \centering
       \scalebox{0.6}{\input{graph/res/6sensores.pgf}}
@@ -497,25 +514,26 @@
   \end{figure}
   \end{frame}
 
-  \begin{frame}{Laboratorio - Prueba con 6 balizas}
+  \begin{frame}{Laboratorio - Resultados con 6 balizas}
     \begin{table}[H]
       \tiny
       \centering
       \hspace*{-0.5cm}
       \begin{tabular}{c|c|c|c|c|c|}
       \cline{2-6}
-                                       & \begin{tabular}[c]{@{}c@{}}Error en \\ eje $x$ (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en \\ eje $y$ (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en eje $x$ \\ (absoluto) (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en eje $y$ \\ (absoluto) (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en \\ posición(cm) \end{tabular}\\ \hline
-      \multicolumn{1}{|c|}{Media}      & -3.7  & 0.7  &  9.6 &  7.7  &  19.2   \\ \hline
-      \multicolumn{1}{|c|}{Mediana}    & -2.2  & 2.08  &  8.8 &  6.0  &  18.2   \\ \hline
-      \multicolumn{1}{|c|}{Desv. estándar} & 11.0  &  10.3  & 6.5 & 6.8 &  6.1    \\ \hline
-      \multicolumn{1}{|c|}{Máximo}     & 15.9  & 17.4  & 24.9 & 33.9 & 35.8   \\ \hline
-      \multicolumn{1}{|c|}{Mínimo}     & -24.9 & -33.9 & 0.1 & 0.1 &  8.6    \\ \hline
+                                       & \begin{tabular}[c]{@{}c@{}}Error en \\ eje $x$ (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en \\ eje $y$ (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en eje $x$ \\ (absoluto) (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en eje $y$ \\ (absoluto) (cm) \end{tabular} & \cellcolor[HTML]{C0C0C0}  \begin{tabular}[c]{@{}c@{}} Error en \\ posición(cm) \end{tabular}\\ \hline
+      \multicolumn{1}{|c|}{Media}      & -3.7  & 0.7  &  9.6 &  7.7  &  \cellcolor[HTML]{C0C0C0}  19.2   \\ \hline
+      \multicolumn{1}{|c|}{Mediana}    & -2.2  & 2.08  &  8.8 &  6.0  &  \cellcolor[HTML]{C0C0C0}  18.2   \\ \hline
+      \multicolumn{1}{|c|}{Desv. estándar} & 11.0  &  10.3  & 6.5 & 6.8 &  \cellcolor[HTML]{C0C0C0}  6.1    \\ \hline
+      \multicolumn{1}{|c|}{Máximo}     & 15.9  & 17.4  & 24.9 & 33.9 & \cellcolor[HTML]{C0C0C0}  35.8   \\ \hline
+      \multicolumn{1}{|c|}{Mínimo}     & -24.9 & -33.9 & 0.1 & 0.1 &  \cellcolor[HTML]{C0C0C0}  8.6    \\ \hline
       \end{tabular}
-      % \caption{Resumen de los errores en el laboratorio con 6 balizas.}
+      \caption{Resumen de los errores en el laboratorio con 6 balizas.}
   \end{table}
   \end{frame}
 
-  \begin{frame}{Laboratorio}
+  \begin{frame}{Laboratorio - Comparación de las configuraciones de balizas}
+    % Quitar lo de a, b y c
     \begin{figure}[H]
       \centering
         \begin{subfigure}[b]{.3\textwidth}
@@ -550,7 +568,9 @@
   \section[Edificio de Física]{Resultados}
 
   \begin{frame}{Edificio de Física}
-    \begin{figure}[h]
+    La primera planta del edificio de Física presenta una superficie mayor que el laboratorio con la presencia de obstáculos entre las balizas y el objetivo.
+
+    \begin{figure}[H]
       \begin{subfigure}[b]{.45\textwidth}
         \centering
         \includegraphics[width=\textwidth]{pic/fisica1.jpg}
@@ -563,12 +583,12 @@
         % \caption{Eje y}
         \label{fig:foto_fisica2}
       \end{subfigure}
-      % \caption{Fotografías del edificio B de la Facultad de Física.}
+      \caption{Fotografías del edificio B de la Facultad de Física.}
       \label{fig:foto_fisica}
     \end{figure}
   \end{frame}
 
-  \begin{frame}{Edificio de Física - Disposición de la planta del edificio de Física}
+  \begin{frame}{Edificio de Física - Puntos a medir y trayectoria}
     \begin{figure}[H]
       \begin{subfigure}[b]{.42\textwidth}
         \centering
@@ -590,7 +610,7 @@
     \end{figure}
   \end{frame}
 
-  \begin{frame}{Edificio de Física - Prueba con 4 balizas}
+  \begin{frame}{Edificio de Física - Resultados con 4 balizas}
     Configuración de 4 balizas
     \begin{figure}[H]
       \centering
@@ -601,7 +621,7 @@
     \end{figure}
   \end{frame}
   
-  \begin{frame}{Edificio de Física - Prueba con 4 balizas}
+  \begin{frame}{Edificio de Física - Resultados con 4 balizas}
     \begin{figure}[H]
       \centering
       \scalebox{0.6}{\input{graph/res/fisica_4sensores.pgf}}
@@ -609,26 +629,26 @@
     \end{figure}
   \end{frame}
   
-    \begin{frame}{Edificio de Física - Prueba con 4 balizas}
+    \begin{frame}{Edificio de Física - Resultados con 4 balizas}
       \begin{table}[H]
         \tiny
         \hspace*{-0.5cm}
         \centering
         \begin{tabular}{c|c|c|c|c|c|}
         \cline{2-6}
-                                                  & \begin{tabular}[c]{@{}c@{}}Error en \\ eje $x$ (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en \\ eje $y$ (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en eje $x$ \\ (absoluto) (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en eje $y$ \\ (absoluto) (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en \\ posición(cm) \end{tabular}\\ \hline
-        \multicolumn{1}{|c|}{Media}               &   0.5   &   -8.6  &      15.3          &         15.4       &  26.1    \\ \hline
-        \multicolumn{1}{|c|}{Mediana}             &   3.4   &   2.08  &      13.7          &         11.2       &  25.9    \\ \hline
-        \multicolumn{1}{|c|}{Desv. estándar} &   18.4  &   10.2  &      18.7          &         13.8       &  12.5    \\ \hline
-        \multicolumn{1}{|c|}{Máximo}              &   27.8  &   39.9  &      40.8          &         49.6       &  52.3    \\ \hline
-        \multicolumn{1}{|c|}{Mínimo}              &  -40.8  &   -49.6 &      2.3           &         0.5        &  5.5     \\ \hline
+                                                  & \begin{tabular}[c]{@{}c@{}}Error en \\ eje $x$ (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en \\ eje $y$ (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en eje $x$ \\ (absoluto) (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en eje $y$ \\ (absoluto) (cm) \end{tabular} & \cellcolor[HTML]{C0C0C0}  \begin{tabular}[c]{@{}c@{}} Error en \\ posición(cm) \end{tabular}\\ \hline
+        \multicolumn{1}{|c|}{Media}               &   0.5   &   -8.6  &      15.3          &         15.4       &  \cellcolor[HTML]{C0C0C0}  26.1    \\ \hline
+        \multicolumn{1}{|c|}{Mediana}             &   3.4   &   2.08  &      13.7          &         11.2       &  \cellcolor[HTML]{C0C0C0}  25.9    \\ \hline
+        \multicolumn{1}{|c|}{Desv. estándar}      &   18.4  &   10.2  &      18.7          &         13.8       &  \cellcolor[HTML]{C0C0C0}  12.5    \\ \hline
+        \multicolumn{1}{|c|}{Máximo}              &   27.8  &   39.9  &      40.8          &         49.6       &  \cellcolor[HTML]{C0C0C0}  52.3    \\ \hline
+        \multicolumn{1}{|c|}{Mínimo}              &  -40.8  &   -49.6 &      2.3           &         0.5        &  \cellcolor[HTML]{C0C0C0}  5.5     \\ \hline
         \end{tabular}
-        % \caption{Resumen de los errores en el edificio de Física con 4 balizas.}
+        \caption{Resumen de los errores en el edificio de Física con 4 balizas.}
         \label{tab:media_fisica_4}
       \end{table}
     \end{frame}
 
-  \begin{frame}{Edificio de Física - Prueba con 6 balizas}
+  \begin{frame}{Edificio de Física - Resultados con 6 balizas}
     Configuración de 6 balizas
     \begin{figure}[H]
       \centering
@@ -639,7 +659,7 @@
     \end{figure}
   \end{frame}
 
-  \begin{frame}{Edificio de Física - Prueba con 6 balizas}
+  \begin{frame}{Edificio de Física - Resultados con 6 balizas}
     \begin{figure}[H]
       \centering
       \scalebox{0.6}{\input{graph/res/fisica_6sensores.pgf}}
@@ -647,26 +667,26 @@
   \end{figure}
   \end{frame}
 
-  \begin{frame}{Edificio de Física - Prueba con 6 balizas}
+  \begin{frame}{Edificio de Física - Resultados con 6 balizas}
     \begin{table}[H]
       \tiny
       \hspace*{-0.5cm}
       \centering
       \begin{tabular}{c|c|c|c|c|c|}
         \cline{2-6}
-                                                  & \begin{tabular}[c]{@{}c@{}}Error en \\ eje $x$ (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en \\ eje $y$ (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en eje $x$ \\ (absoluto) (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en eje $y$ \\ (absoluto) (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en \\ posición(cm) \end{tabular}\\ \hline
-        \multicolumn{1}{|c|}{Media}               &  -4.7   &   -11.9 &      16.0          &         12.1       &  23.7    \\ \hline
-        \multicolumn{1}{|c|}{Mediana}             &  -3.8   &   -10.4 &      17.7          &         10.3       &  22.7    \\ \hline
-        \multicolumn{1}{|c|}{Desv. estándar} &   18.7  &   10.5  &      10.8          &         10.1       &  10.9    \\ \hline
-        \multicolumn{1}{|c|}{Máximo}              &   32.1  &   1.1   &      40.8          &         30.8       &  44.1    \\ \hline
-        \multicolumn{1}{|c|}{Mínimo}              &  -40.7  &   -30.9 &      3.3           &         0.4        &  7.8     \\ \hline
+                                                  & \begin{tabular}[c]{@{}c@{}}Error en \\ eje $x$ (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en \\ eje $y$ (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en eje $x$ \\ (absoluto) (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en eje $y$ \\ (absoluto) (cm) \end{tabular} & \cellcolor[HTML]{C0C0C0}  \begin{tabular}[c]{@{}c@{}} Error en \\ posición(cm) \end{tabular}\\ \hline
+        \multicolumn{1}{|c|}{Media}               &  -4.7   &   -11.9 &      16.0          &         12.1       &  \cellcolor[HTML]{C0C0C0}  23.7    \\ \hline
+        \multicolumn{1}{|c|}{Mediana}             &  -3.8   &   -10.4 &      17.7          &         10.3       &  \cellcolor[HTML]{C0C0C0}  22.7    \\ \hline
+        \multicolumn{1}{|c|}{Desv. estándar}      &   18.7  &   10.5  &      10.8          &         10.1       &  \cellcolor[HTML]{C0C0C0}  10.9    \\ \hline
+        \multicolumn{1}{|c|}{Máximo}              &   32.1  &   1.1   &      40.8          &         30.8       &  \cellcolor[HTML]{C0C0C0}  44.1    \\ \hline
+        \multicolumn{1}{|c|}{Mínimo}              &  -40.7  &   -30.9 &      3.3           &         0.4        &  \cellcolor[HTML]{C0C0C0}  7.8     \\ \hline
     \end{tabular}
-    % \caption{Resumen de los errores en el edificio de Física con 6 balizas.}
+    \caption{Resumen de los errores en el edificio de Física con 6 balizas.}
     \label{tab:media_fisica_6}
     \end{table}
   \end{frame}
 
-  \begin{frame}{Edificio de Física - Prueba con 8 balizas}
+  \begin{frame}{Edificio de Física - Resultados con 8 balizas}
     Configuración de 8 balizas
     \begin{figure}[H]
       \centering
@@ -677,7 +697,7 @@
     \end{figure}
   \end{frame}
 
-  \begin{frame}{Edificio de Física - Prueba con 8 balizas}
+  \begin{frame}{Edificio de Física - Resultados con 8 balizas}
     \begin{figure}[H]
       \centering
       \scalebox{0.6}{\input{graph/res/fisica_8sensores.pgf}}
@@ -692,26 +712,27 @@
       \centering
       \begin{tabular}{c|c|c|c|c|c|}
         \cline{2-6}
-                                                  & \begin{tabular}[c]{@{}c@{}}Error en \\ eje $x$ (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en \\ eje $y$ (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en eje $x$ \\ (absoluto) (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en eje $y$ \\ (absoluto) (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en \\ posición(cm) \end{tabular}\\ \hline
-        \multicolumn{1}{|c|}{Media}               &  -3.5   &  -6.2   &      11.9          &         13.7       &  22.3    \\ \hline
-        \multicolumn{1}{|c|}{Mediana}             &  -4.7   &  -7.1   &      11.4          &         9.6        &  19.1    \\ \hline
-        \multicolumn{1}{|c|}{Desv. estándar} &  13.6   &   12.3  &      7.5           &         12.3       &  12.2    \\ \hline
-        \multicolumn{1}{|c|}{Máximo}              &  21.0   &   48.9  &      25.8          &         48.9       &  55.5    \\ \hline
-        \multicolumn{1}{|c|}{Mínimo}              &  -40.7  &  -30.5  &      3.3           &         1.5        &  5.6     \\ \hline
+                                                  & \begin{tabular}[c]{@{}c@{}}Error en \\ eje $x$ (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en \\ eje $y$ (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en eje $x$ \\ (absoluto) (cm) \end{tabular} & \begin{tabular}[c]{@{}c@{}} Error en eje $y$ \\ (absoluto) (cm) \end{tabular} & \cellcolor[HTML]{C0C0C0}  \begin{tabular}[c]{@{}c@{}} Error en \\ posición(cm) \end{tabular}\\ \hline
+        \multicolumn{1}{|c|}{Media}               &  -3.5   &  -6.2   &      11.9          &         13.7       &  \cellcolor[HTML]{C0C0C0}  22.3    \\ \hline
+        \multicolumn{1}{|c|}{Mediana}             &  -4.7   &  -7.1   &      11.4          &         9.6        &  \cellcolor[HTML]{C0C0C0}  19.1    \\ \hline
+        \multicolumn{1}{|c|}{Desv. estándar}      &  13.6   &   12.3  &      7.5           &         12.3       &  \cellcolor[HTML]{C0C0C0}  12.2    \\ \hline
+        \multicolumn{1}{|c|}{Máximo}              &  21.0   &   48.9  &      25.8          &         48.9       &  \cellcolor[HTML]{C0C0C0}  55.5    \\ \hline
+        \multicolumn{1}{|c|}{Mínimo}              &  -40.7  &  -30.5  &      3.3           &         1.5        &  \cellcolor[HTML]{C0C0C0}  5.6     \\ \hline
     \end{tabular}
-    % \caption{Resumen de los errores en el edificio de Física con 8 balizas.}
+    \caption{Resumen de los errores en el edificio de Física con 8 balizas.}
     \label{tab:media_fisica_8}
     \end{table}
   \end{frame}
 
-  \begin{frame}{Edificio de Física}
+  \begin{frame}{Edificio de Física - Comparación de resultados}
+    \vspace*{-0.2cm}
     \begin{figure}[H]
       \centering
         \begin{subfigure}[b]{.3\textwidth}
           \centering
           \hspace*{-0.8cm}
           \input{./graph/boxplot_fisica_x.tex} 
-          % \vspace*{-0.5cm}
+          \vspace*{-0.5cm}
           \caption{Eje x}
           \label{fig:boxplot_fisica_x}
         \end{subfigure}
@@ -719,7 +740,7 @@
         \begin{subfigure}[b]{.3\textwidth}
           \centering
           \input{./graph/boxplot_fisica_y.tex}  
-          % \vspace*{-0.5cm}
+          \vspace*{-0.5cm}
           \caption{Eje y}
           \label{fig:boxplot_fisica_y}
         \end{subfigure}
@@ -727,6 +748,7 @@
         \begin{subfigure}[b]{.3\textwidth}
             \centering
             \input{./graph/boxplot_fisica_pos.tex}  
+            \vspace*{-0.5cm}
             \caption{Posición}
             \label{fig:boxplot_fisica_pos}
           \end{subfigure}
@@ -737,13 +759,20 @@
 
 \section{Conclusiones}
 \begin{frame}{Conclusiones}
-  Al usar solo 4 balizas en todo momento, la posición de las balizas es crítica para un correcto posicionamiento.
+  % Pausita antes de acabar.
 
-  En general, se obtienen errores dos órdenes de magnitud menores que la superficie total.
+  Se ha medido el rendimiento del kit comercial DecaWave MDEK1001 de Ultra-wide Band con la ayuda de un robot autónomo en dos escenarios con distintas características.
+  
+  % En general, se obtienen errores dos órdenes de magnitud menores que la superficie total.
+
+  Al usar solo 4 balizas en todo momento, la posición de las balizas es crítica para un correcto posicionamiento.
 
   La presencia de obstáculos que evitan la visión directa tienen un efecto crítico en el posicionamiento.
 
  Aunque la tecnología UWB ofrece el mejor rendimiento entre sus rivales, sus puntos débiles hacen que el problema del posicionamiento no esté del todo resuelto. 
 \end{frame}
+
+\logo{\includegraphics[height=2cm]{pic/uex_logo_3.png}}
+\maketitle
 
 \end{document}

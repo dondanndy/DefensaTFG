@@ -5,8 +5,9 @@
         boxplot/draw direction=y,
         ymajorgrids,
         xtick={1,2,3},
-        xticklabels={{4 \\ bal.}, {6 \\ bal.}, {8 \\ bal.}},
-        xticklabel style={align=center},
+        xticklabels={{4 bal.}, {6 bal.}, {8 bal.}},
+        xticklabel style={align=center, font=\scriptsize},
+        yticklabel style={font=\scriptsize},
         ]
         \addplot+ [boxplot] table[y index=0] {data/4sens_fisica.txt};
         \addplot+ [boxplot] table[y index=0] {data/6sens_fisica.txt};
