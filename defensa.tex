@@ -92,14 +92,14 @@
 
     \begin{frame}{Técnicas de posicionamiento}
     \begin{itemize}
-      \item \textit{Fingerprinting}
-      \item Algoritmos geométricos
+      \item \textit{Fingerprinting}.
+      \item Algoritmos geométricos.
       % Machine Learning
       \begin{itemize}
-        \item Tiempo de vuelo (TOA)
-        \item Diferencia de tiempo de vuelo (TDOA)
-        \item Potencia percibida (RSSI)
-        \item Ángulo de llegada (AOA)
+        \item Tiempo de vuelo (TOA).
+        \item Diferencia de tiempo de vuelo (TDOA).
+        \item Potencia percibida (RSSI).
+        \item Ángulo de llegada (AOA).
       \end{itemize}
     \end{itemize}
     \end{frame}
@@ -271,12 +271,31 @@
 
   \begin{frame}{Tecnologías}
     \begin{itemize}
-      \item Ultrasonido
-      \item Luz
-      \item Bluetooth
-      \item Wi-Fi
-      \item Ultra-Wide Band
+      \item Ultrasonido.
+      \item Luz.
+      \item Bluetooth.
+      \item Wi-Fi.
+      \item Ultra-Wide Band.
     \end{itemize}
+
+    \begin{figure}[H]
+      \begin{subfigure}[b]{.45\textwidth}
+        \centering
+        \def\svgwidth{0.7\linewidth}
+        \input{fig/pulso_tiempo.pdf_tex} 
+        \caption{Tiempo}
+        \label{fig:forma_pulsos_tiempo}
+      \end{subfigure}
+      \begin{subfigure}[b]{.45\textwidth}
+        \centering
+        \def\svgwidth{0.7\linewidth}
+        \input{fig/pulso_frec.pdf_tex}
+        \caption{Frecuencia}
+        \label{fig:forma_pulsos_frec}
+      \end{subfigure}
+      \caption{Dominio de tiempo en negro y dominio de frecuencia en rojo.}
+      \label{fig:forma_pulsos}
+    \end{figure}
     % Precsion temporal menor imposibilita el uso de tecnicas geometricas.
   \end{frame}
 
@@ -292,7 +311,7 @@
     Ventajas
     \begin{itemize}
       \item El gran ancho de banda permite pulsos muy cortos en el tiempo, lo que permite una gran resolución temporal.
-      \item Pocas probabilidades de interferencias. %Influencia
+      \item Poca influencia con interferencias.
       \item Bajo consumo energético.
       \item Gran capacidad de transmisión de datos.
     \end{itemize}
